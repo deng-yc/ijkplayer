@@ -203,6 +203,7 @@ if [ ! -f "$FF_TOOLCHAIN_TOUCH" ]; then
         $FF_MAKE_TOOLCHAIN_FLAGS \
         --platform=$FF_ANDROID_PLATFORM \
         --toolchain=$FF_TOOLCHAIN_NAME
+        --system=linux-x86_64
     touch $FF_TOOLCHAIN_TOUCH;
 fi
 
