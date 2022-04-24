@@ -5048,3 +5048,31 @@ IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp)
 
     return ffp->meta;
 }
+// 获取视频队列缓冲区时长
+static int64_t get_video_queue_cached_duration(FFPlayer *ffp)
+{
+	return is->videoq.duration;
+}
+
+// 控制视频缓冲区最大延迟在 [max_delay_ms, max_delay_ms+network_jitter_ms) 区间浮动
+// 设置max_delay_ms = 0 不开启追帧策略
+static void control_max_delay_duration(FFPlayer *ffp, int max_delay_ms, int network_jitter_ms, float new_play_rate) 
+{
+    if (max_delay_ms == 0)
+		return;
+      
+	VideoState *is = (VideoState*)handle;
+	uint32_t cached_duration = get_video_queue_cached_duration(is);
+	if (cached_duration > max_delay_ms + network_jitter_ms && ffp->pf_playback_rate == 1.0)
+	{
+		//设置倍速播放 建议1.1 or 1.2 倍速
+		ffp_set_playback_rate(ffp, new_play_rate) ; 
+	}
+	else if(cached_duration <= max_delay_ms && ffp->pf_playback_rate != 1.0) 
+    {
+        //恢复正常播放速度
+		ffp_set_playback_rate(ffp, 1.0);
+	}else{
+        ;// do nothing...
+    }
+}
