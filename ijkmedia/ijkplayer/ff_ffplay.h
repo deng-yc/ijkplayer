@@ -120,3 +120,15 @@ void      ffp_set_property_int64(FFPlayer *ffp, int id, int64_t value);
 struct IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp);
 
 #endif
+// 设置视频缓冲区最大延迟，抖动时长，倍速播放速度
+void ffp_set_maxdelay_jitter_palyrate(FFPlayer *ffp, int max_delay_ms, int network_jitter_ms, float new_play_rate)
+{
+    assert(ffp);
+    VideoState *is = ffp->is;
+    if (!is)
+        return;
+    
+    is->max_delay_ms = max_delay_ms;
+    is->network_jitter_ms = network_jitter_ms;
+    is->new_play_rate = new_play_rate;
+}
