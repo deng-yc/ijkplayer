@@ -66,7 +66,6 @@
 #include "ff_ffpipenode.h"
 #include "ijkmeta.h"
 
-#define MIN_FRAMES 1000
 #define DEFAULT_HIGH_WATER_MARK_IN_BYTES        (256 * 1024)
 
 /*
@@ -86,7 +85,7 @@
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MAX_ACCURATE_SEEK_TIMEOUT (5000)
 #ifdef FFP_MERGE
-#define MIN_FRAMES 25
+#define MIN_FRAMES 1000
 #endif
 #define DEFAULT_MIN_FRAMES  50000
 #define MIN_MIN_FRAMES      2
