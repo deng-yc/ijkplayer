@@ -66,6 +66,7 @@
 #include "ff_ffpipenode.h"
 #include "ijkmeta.h"
 
+#define MIN_FRAMES 1000
 #define DEFAULT_HIGH_WATER_MARK_IN_BYTES        (256 * 1024)
 
 /*
@@ -285,6 +286,9 @@ typedef struct VideoState {
     int seek_flags;
     int64_t seek_pos;
     int64_t seek_rel;
+    int max_delay_ms; 		// 默认: 5000ms
+    int network_jitter_ms;  // 默认: 500ms
+    float new_play_rate;	//默认: 1.2
 #ifdef FFP_MERGE
     int read_pause_return;
 #endif
