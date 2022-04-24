@@ -3516,6 +3516,10 @@ static int read_thread(void *arg)
         }
         pkt->flags = 0;
         ret = av_read_frame(ic, pkt);
+	if(is->max_delay_ms > 0)
+        {
+            control_max_delay_duration(ffp, is->max_delay_ms, is->network_jitter_ms, is->new_play_rate);
+        }
         if (ret < 0) {
             int pb_eof = 0;
             int pb_error = 0;
@@ -3568,7 +3572,7 @@ static int read_thread(void *arg)
         } else {
             is->eof = 0;
         }
-
+       
         if (pkt->flags & AV_PKT_FLAG_DISCONTINUITY) {
             if (is->audio_stream >= 0) {
                 packet_queue_put(&is->audioq, &flush_pkt);
